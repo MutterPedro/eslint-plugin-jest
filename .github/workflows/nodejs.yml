@@ -38,6 +38,10 @@ jobs:
           yarn add --dev eslint@${{matrix.eslint-version }}
       - name: run prettylint
         run: yarn prettylint
+      - name: debug
+        run: ls node_modules/eslint-plugin-eslint-plugin
+      - name: lint
+        run: yarn lint
       - name: run typecheck
         run: yarn typecheck
       - name: run tests
