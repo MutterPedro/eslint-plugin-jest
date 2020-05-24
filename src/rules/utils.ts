@@ -7,6 +7,13 @@ import {
 } from '@typescript-eslint/experimental-utils';
 import { version } from '../../package.json';
 
+// can be removed once we've on v3: https://github.com/typescript-eslint/typescript-eslint/issues/2060
+declare module '@typescript-eslint/experimental-utils/dist/ts-eslint/Rule' {
+  export interface RuleMetaDataDocs {
+    suggestion?: boolean;
+  }
+}
+
 const REPO_URL = 'https://github.com/jest-community/eslint-plugin-jest';
 
 export const createRule = ESLintUtils.RuleCreator(name => {

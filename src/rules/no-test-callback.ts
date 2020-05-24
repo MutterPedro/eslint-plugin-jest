@@ -8,6 +8,7 @@ export default createRule({
       category: 'Best Practices',
       description: 'Avoid using a callback in asynchronous tests',
       recommended: false,
+      suggestion: true,
     },
     messages: {
       illegalTestCallback: 'Illegal usage of test callback',
