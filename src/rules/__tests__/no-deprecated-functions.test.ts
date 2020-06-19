@@ -3,20 +3,36 @@ import * as os from 'os';
 import * as path from 'path';
 import { JSONSchemaForNPMPackageJsonFiles } from '@schemastore/package';
 import { TSESLint } from '@typescript-eslint/experimental-utils';
+import rimraf from 'rimraf';
 import rule, {
   JestVersion,
   _clearCachedJestVersion,
 } from '../no-deprecated-functions';
 
+const root = process.cwd();
+afterEach(() => process.chdir(root));
 const ruleTester = new TSESLint.RuleTester();
+
+const tempDirectories: string[] = [];
 
 /**
  * Makes a new temp directory, prefixed with `eslint-plugin-jest-`
  *
  * @return {Promise<string>}
  */
-const makeTempDir = async () =>
-  fs.mkdtempSync(path.join(os.tmpdir(), 'eslint-plugin-jest-'));
+const makeTempDir = async () => {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'eslint-plugin-jest-'));
+
+  tempDirectories.push(tempDir);
+
+  return tempDir;
+};
+
+const clearTempDirs = () => {
+  tempDirectories.forEach(dir => rimraf.sync(dir));
+
+  tempDirectories.length = 0;
+};
 
 /**
  * Sets up a fake project with a `package.json` file located in
@@ -91,6 +107,8 @@ const generateInvalidCases = (
     },
   ];
 };
+
+afterEach(clearTempDirs);
 
 describe('the jest version cache', () => {
   beforeEach(async () => process.chdir(await setupFakeProjectDirectory(17)));

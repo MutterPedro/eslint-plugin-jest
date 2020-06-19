@@ -87,6 +87,7 @@
     ]
   },
   "dependencies": {
+    "@types/rimraf": "^3.0.0",
     "@typescript-eslint/experimental-utils": "^2.5.0"
   },
   "devDependencies": {
